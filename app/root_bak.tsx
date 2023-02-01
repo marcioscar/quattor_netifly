@@ -1,4 +1,4 @@
-import type { MetaFunction, LinksFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,16 +7,13 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import styles from "./styles/app.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Quattor Academia",
+  title: "New Remix App",
   viewport: "width=device-width,initial-scale=1",
 });
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: styles }];
-};
+
 export default function App() {
   return (
     <html lang="en">
@@ -24,7 +21,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-stone-200">
+      <body>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
