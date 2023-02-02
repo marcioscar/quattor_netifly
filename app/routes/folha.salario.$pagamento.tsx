@@ -23,14 +23,14 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (action === "cadastrar") {
     const salario = await createSalario(values);
-    return redirect(`folha`);
+    return redirect(`/folha`);
     // return redirect(`folha/salario/${salario.id}`);
   } else if (action === "delete") {
     await deleteSalario(values);
-    return redirect(`folha`);
+    return redirect(`/folha`);
   } else if (action === "pagar") {
     await pagarSalario(values);
-    return redirect(`folha`);
+    return redirect(`/folha`);
   }
 };
 export const loader: LoaderFunction = async ({ request, params }) => {
