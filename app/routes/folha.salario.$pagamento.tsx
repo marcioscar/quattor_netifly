@@ -52,7 +52,6 @@ export default function Pagamento() {
   const { funcionario } = useLoaderData();
 
   const PagFechado = funcionario.salarios.map((s: any) => s.pago).pop();
-  console.log(!PagFechado);
 
   return (
     <>
