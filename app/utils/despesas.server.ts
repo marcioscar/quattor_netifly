@@ -61,9 +61,14 @@ export const DespesasFixas = async (ref: string) => {
 
 export const totTipoDespesas = async (ref: string) => {
   const despesasTipo = await prisma.despesas.groupBy({
-    by: ["tipo"],
+    by: ["conta"],
     _sum: {
       valor: true,
+    },
+    orderBy: {
+      _sum: {
+        valor: "desc",
+      },
     },
     where: {
       referencia: {

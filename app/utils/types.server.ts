@@ -7,6 +7,7 @@ export type DespesaForm = {
 };
 
 export type tipoDesp = {
+  _sum: any;
   id: string;
   conta: string;
   data: Date;

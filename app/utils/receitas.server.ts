@@ -63,8 +63,32 @@ export const groupReceitasAgrupadas = async (ref: string) => {
 
 export const receitasPorCentroData = async (ref: string) => {
   switch (ref) {
+    case "abr-2023":
+      ref = "04/2023";
+      break;
     case "mai-2023":
       ref = "05/2023";
+      break;
+    case "jun-2023":
+      ref = "06/2023";
+      break;
+    case "jul-2023":
+      ref = "07/2023";
+      break;
+    case "ago-2023":
+      ref = "08/2023";
+      break;
+    case "set-2023":
+      ref = "09/2023";
+      break;
+    case "out-2023":
+      ref = "10/2023";
+      break;
+    case "nov-2023":
+      ref = "11/2023";
+      break;
+    case "dez-2023":
+      ref = "12/2023";
       break;
   }
   return prisma.receitas.groupBy({

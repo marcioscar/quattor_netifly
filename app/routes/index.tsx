@@ -3,7 +3,6 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   groupReceitasAgrupadas,
-  ReceitasMes,
   receitasPorCentroData,
 } from "~/utils/receitas.server";
 import { useLoaderData, useFetcher } from "@remix-run/react";
@@ -56,6 +55,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const TotSalMes = _.filter(TotSalarios, ["_id", parametro]);
   const salAreas = await groupSalarioAreas(parametro);
   const totTipoDesp = await totTipoDespesas(parametro);
+  console.log(totTipoDesp);
   const areas = await SalarioAreas();
 
   return json({
@@ -82,12 +82,16 @@ export default function Index() {
     TotSalMes,
     salAreas,
     areas,
+    totTipoDesp,
   } = useLoaderData();
   const totalRec = rec.data?.totReceitas ? rec.data.totReceitas : totReceitas;
   const recMes = rec.data?.ReceitasM ? rec.data.ReceitasM : ReceitasM;
 
   const totalDesp = rec.data?.TotDespesas ? rec.data.TotDespesas : TotDespesas;
   const despMes = rec.data?.DespesasM ? rec.data.DespesasM : DespesasM;
+  const totTipoDespesa = rec.data?.totTipoDesp
+    ? rec.data.totTipoDesp
+    : totTipoDesp;
   const TotSalarioMes = rec.data?.TotSalMes ? rec.data.TotSalMes : TotSalMes;
   const TotSalAreas = rec.data?.salAreas ? rec.data.salAreas : salAreas;
 
@@ -355,13 +359,13 @@ export default function Index() {
               <div className="overflow-y-auto  max-h-40 relative">
                 <table className="text-sm w-full  text-left text-slate-500 ">
                   <tbody>
-                    {DespesasFixas?.map((desp: tipoDesp) => (
+                    {totTipoDespesa?.map((desp: tipoDesp) => (
                       <tr key={desp.id} className="bg-white border-b ">
                         <th className="py-2 px-1 w-40  font-medium text-slate-900 whitespace-nowrap ">
                           {desp.conta}
                         </th>
                         <td className="py-2 px-6 font-mono text-right">
-                          {desp.valor.toLocaleString("pt-br", {
+                          {desp._sum.valor.toLocaleString("pt-br", {
                             minimumFractionDigits: 2,
                           })}
                         </td>
@@ -421,13 +425,13 @@ export default function Index() {
               <div className="overflow-y-auto  max-h-40 relative">
                 <table className="text-sm w-full text-left text-slate-500 ">
                   <tbody>
-                    {despMes?.map((desp: tipoDesp) => (
+                    {totTipoDespesa?.map((desp: tipoDesp) => (
                       <tr key={desp.id} className="bg-white border-b ">
                         <th className="py-2 px-1 w-40  font-medium text-slate-500 whitespace-nowrap ">
                           {desp.conta}
                         </th>
                         <td className="py-2 px-6 font-mono text-right">
-                          {desp.valor.toLocaleString("pt-br", {
+                          {desp._sum.valor.toLocaleString("pt-br", {
                             minimumFractionDigits: 2,
                           })}
                         </td>
