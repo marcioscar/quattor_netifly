@@ -24,6 +24,7 @@ export type ReceitaForm = {
 };
 
 export type tipoRec = {
+  _sum: any;
   id: string;
   centro: string;
   data: Date;

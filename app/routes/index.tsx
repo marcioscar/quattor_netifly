@@ -1,7 +1,11 @@
 import { Navbar } from "~/components/Navbar";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { groupReceitasAgrupadas, ReceitasMes } from "~/utils/receitas.server";
+import {
+  groupReceitasAgrupadas,
+  ReceitasMes,
+  receitasPorCentroData,
+} from "~/utils/receitas.server";
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import {
   totDespesas,
@@ -35,14 +39,17 @@ import { requireUserSession } from "~/utils/auth.server";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   await requireUserSession(request);
-  console.log(await requireUserSession(request));
+
   const dataAtual = format(new Date(), "MMM-yyyy", { locale: pt });
   const url = new URL(request.url);
   const par = url.searchParams.get("rec");
-  const parametro = par ? par : dataAtual;
+  let parametro = par ? par : dataAtual;
 
   const totReceitas = await groupReceitasAgrupadas(String(parametro));
-  const ReceitasM = await ReceitasMes(String(parametro));
+
+  // const ReceitasM = await ReceitasMes(String(parametro));
+  const ReceitasM = await receitasPorCentroData(String(parametro));
+
   const DespesasM = await DespesasMes(String(parametro));
   const TotDespesas = await totDespesas(String(parametro));
   const TotSalarios = await groupSalario();
@@ -78,6 +85,7 @@ export default function Index() {
   } = useLoaderData();
   const totalRec = rec.data?.totReceitas ? rec.data.totReceitas : totReceitas;
   const recMes = rec.data?.ReceitasM ? rec.data.ReceitasM : ReceitasM;
+
   const totalDesp = rec.data?.TotDespesas ? rec.data.TotDespesas : TotDespesas;
   const despMes = rec.data?.DespesasM ? rec.data.DespesasM : DespesasM;
   const TotSalarioMes = rec.data?.TotSalMes ? rec.data.TotSalMes : TotSalMes;
@@ -312,8 +320,7 @@ export default function Index() {
             className="rounded text-blue-600 h-8  pl-5 pr-10 hover:border-gray-400 focus:outline-none "
             name="rec"
             defaultValue={format(new Date(), "MMM-yyyy", { locale: pt })}
-            onChange={(event) => rec.submit(event.target.form)}
-          >
+            onChange={(event) => rec.submit(event.target.form)}>
             <option hidden={true} value="">
               Selecione mês e ano referencia
             </option>
@@ -335,8 +342,8 @@ export default function Index() {
 
       <div className="container p-8 mx-auto">
         <div className=" grid grid-cols-3 gap-4">
-          <div className="block shadow-md  rounded-md border border-gray-300 bg-gray text-center ">
-            <div className="border-gray-300 py-2 text-white bg-slate-600 flex justify-between px-4">
+          <div className="block shadow-md rounded-lg  text-center ">
+            <div className="rounded-t-lg  py-2 text-white bg-slate-600 flex justify-between px-4">
               <p>Despesas Fixas</p>
               <p className="font-mono  ">
                 {DespesasFixasTotal?.toLocaleString("pt-br", {
@@ -344,7 +351,7 @@ export default function Index() {
                 })}
               </p>
             </div>
-            <div className="h-44 p-2 bg-white">
+            <div className="h-44 p-2 rounded-b-lg bg-white">
               <div className="overflow-y-auto  max-h-40 relative">
                 <table className="text-sm w-full  text-left text-slate-500 ">
                   <tbody>
@@ -368,8 +375,8 @@ export default function Index() {
             2 days ago
           </div> */}
           </div>
-          <div className="block shadow-md  rounded-md border border-gray-300 bg-gray text-center ">
-            <div className="border-gray-300 py-2 text-white bg-slate-600  flex justify-between px-4">
+          <div className="block shadow-md  rounded-t-md border border-gray-300 bg-gray text-center ">
+            <div className="border-gray-300 py-2 rounded-t-lg  text-white bg-slate-600  flex justify-between px-4">
               <p>Despesas Variáveis</p>
               <p className="font-mono">
                 {DespesasVariavelTotal?.toLocaleString("pt-br", {
@@ -377,9 +384,9 @@ export default function Index() {
                 })}
               </p>
             </div>
-            <div className="h-44 p-2 bg-white">
-              <div className="overflow-y-auto  max-h-56 relative">
-                <table className="text-sm w-full  text-left text-slate-500 ">
+            <div className="h-44 p-2 rounded-b-md  bg-white">
+              <div className="overflow-y-auto rounded-t-md  max-h-56 relative">
+                <table className="text-sm w-full rounded-b-lg   text-left text-slate-500 ">
                   <tbody>
                     {DespesasVariaveis?.map((desp: tipoDesp) => (
                       <tr key={desp.id} className="bg-white border-b ">
@@ -401,8 +408,8 @@ export default function Index() {
             2 days ago
           </div> */}
           </div>
-          <div className="block shadow-md  rounded-md border border-gray-300 bg-gray text-center ">
-            <div className="border-gray-300 py-2 text-white bg-slate-600 flex justify-between px-4">
+          <div className="block shadow-md  rounded-t-md border border-gray-300 bg-gray text-center ">
+            <div className="border-gray-300 py-2 rounded-t-md  text-white bg-slate-600 flex justify-between px-4">
               <p>Despesas</p>
               <p className="font-mono">
                 {totalDesp._sum.valor?.toLocaleString("pt-br", {
@@ -410,7 +417,7 @@ export default function Index() {
                 })}
               </p>
             </div>
-            <div className="h-44 p-2 bg-white">
+            <div className="h-44 p-2 rounded-b-md  bg-white">
               <div className="overflow-y-auto  max-h-40 relative">
                 <table className="text-sm w-full text-left text-slate-500 ">
                   <tbody>
@@ -440,6 +447,7 @@ export default function Index() {
               <p className="font-mono">
                 {totalRec._sum.valor?.toLocaleString("pt-br", {
                   minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
                 })}
               </p>
             </div>
@@ -453,8 +461,9 @@ export default function Index() {
                           {rec.centro}
                         </th>
                         <td className="py-2 px-6 font-mono text-right">
-                          {rec.valor.toLocaleString("pt-br", {
+                          {rec._sum.valor.toLocaleString("pt-br", {
                             minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
                           })}
                         </td>
                       </tr>
