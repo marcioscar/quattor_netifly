@@ -68,7 +68,7 @@ export const receitasPorCentroData = async (ref: string) => {
       break;
   }
   return prisma.receitas.groupBy({
-    by: ["centro", "data"],
+    by: ["centro"],
 
     where: {
       data: {
