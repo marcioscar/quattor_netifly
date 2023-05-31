@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../app/components/Modal.jsx"],
+  "sourcesContent": ["function Modal({ children, onClose }) {\n  return (\n    <div\n      // className=\"position: fixed left-1/2 top-11  w-1/2 h-1/2 bg-red-500\"\n      className=\"justify-center bg-white/80  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none\"\n      onClick={onClose}\n    >\n      <dialog\n        className=\"relative w-auto my-6 mx-auto max-w-3xl \"\n        open\n        onClick={(event) => event.stopPropagation()}\n      >\n        {children}\n      </dialog>\n    </div>\n  );\n}\n\nexport default Modal;\n"],
+  "mappings": ";;;;;;;;AAOM;AAPN,SAAS,MAAM,EAAE,UAAU,QAAQ,GAAG;AACpC,SACE;AAAA,IAAC;AAAA;AAAA,MAEC,WAAU;AAAA,MACV,SAAS;AAAA,MAET;AAAA,QAAC;AAAA;AAAA,UACC,WAAU;AAAA,UACV,MAAI;AAAA,UACJ,SAAS,CAAC,UAAU,MAAM,gBAAgB;AAAA,UAEzC;AAAA;AAAA,QALH;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,MAMA;AAAA;AAAA,IAXF;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,EAYA;AAEJ;AAEA,IAAO,gBAAQ;",
+  "names": []
+}
