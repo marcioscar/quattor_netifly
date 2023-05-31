@@ -13,7 +13,7 @@ import { RiCloseCircleFill } from "react-icons/ri";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const despesa = await getDespesa(params.despesa as string);
-  console.log("Despesa:" + despesa?.valor);
+
   return json({ despesa });
 };
 
@@ -57,8 +57,7 @@ export default function Despesa() {
         <Form
           reloadDocument
           method="post"
-          className="rounded-2xl bg-gray-200 p-6 w-96"
-        >
+          className="rounded-2xl bg-gray-200 p-6 w-96">
           <input hidden type="text" name="id" defaultValue={despesa?.id} />
           <label htmlFor="conta" className="text-blue-600 font-semibold">
             Conta
@@ -99,8 +98,7 @@ export default function Despesa() {
             id="tipo"
             name="tipo"
             defaultValue={despesa?.tipo}
-            className="bg-gray-50 border p-2 my-2 border-gray-300 text-gray-900 mb-6  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
+            className="bg-gray-50 border p-2 my-2 border-gray-300 text-gray-900 mb-6  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option value="fixa">Fixa</option>
             <option value="variavel">Variável</option>
           </select>
@@ -110,8 +108,7 @@ export default function Despesa() {
               type="submit"
               className="rounded-xl mt-2 bg-blue-500 text-white px-3 py-2 font-semibold transition duration-300 ease-in-out hover:bg-blue-700 hover:-translate-y-1"
               name="_action"
-              value="save"
-            >
+              value="save">
               {transition.state === "submitting"
                 ? "Cadastrando..."
                 : "Cadastrar"}
@@ -120,8 +117,7 @@ export default function Despesa() {
               type="submit"
               className="rounded-xl mt-2 bg-red-500 text-white px-3 py-2 font-semibold transition duration-300 ease-in-out hover:bg-red-700 hover:-translate-y-1"
               name="_action"
-              value="delete"
-            >
+              value="delete">
               {transition.state === "submitting" ? "Apagando..." : "Apagar"}
             </button>
           </div>

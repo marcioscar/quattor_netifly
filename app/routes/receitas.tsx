@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, NavLink, useLoaderData } from "@remix-run/react";
+import { Form, NavLink, Outlet, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { Navbar } from "~/components/Navbar";
 import type { tipoRec } from "~/utils/types.server";
@@ -18,7 +18,7 @@ import type { ActionArgs } from "@remix-run/node";
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   await baixarReceita(formData.get("_id"));
-  // return redirect(``);
+  return redirect(``);
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -57,7 +57,7 @@ export default function Receitas() {
   return (
     <>
       <Navbar />
-
+      <Outlet />
       <h1 className="flex  justify-center font-bold text-slate-500 text-xl">
         RECEITAS
       </h1>
