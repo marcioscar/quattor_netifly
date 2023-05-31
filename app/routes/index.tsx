@@ -10,6 +10,7 @@ import {
   totDespesas,
   DespesasMes,
   totTipoDespesas,
+  totTipoDespesasFixa,
 } from "../utils/despesas.server";
 import { format } from "date-fns";
 import { pt } from "date-fns/locale";
@@ -54,8 +55,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const TotSalarios = await groupSalario();
   const TotSalMes = _.filter(TotSalarios, ["_id", parametro]);
   const salAreas = await groupSalarioAreas(parametro);
-  const totTipoDesp = await totTipoDespesas(parametro);
-  console.log(totTipoDesp);
+  const totTipoDesp = await totTipoDespesasFixa(parametro);
+
   const areas = await SalarioAreas();
 
   return json({
@@ -86,7 +87,7 @@ export default function Index() {
   } = useLoaderData();
   const totalRec = rec.data?.totReceitas ? rec.data.totReceitas : totReceitas;
   const recMes = rec.data?.ReceitasM ? rec.data.ReceitasM : ReceitasM;
-
+  console.log(totalRec);
   const totalDesp = rec.data?.TotDespesas ? rec.data.TotDespesas : TotDespesas;
   const despMes = rec.data?.DespesasM ? rec.data.DespesasM : DespesasM;
   const totTipoDespesa = rec.data?.totTipoDesp
@@ -95,7 +96,8 @@ export default function Index() {
   const TotSalarioMes = rec.data?.TotSalMes ? rec.data.TotSalMes : TotSalMes;
   const TotSalAreas = rec.data?.salAreas ? rec.data.salAreas : salAreas;
 
-  const DespesasFixas = _.filter(despMes, ["tipo", "fixa"]);
+  const DespesasFixas = _.filter(totTipoDespesa, ["tipo", "fixa"]);
+
   const DespesasVariaveis = _.filter(despMes, ["tipo", "variavel"]);
   const DespesasFixasTotal = _.sumBy(
     _.filter(despMes, ["tipo", "fixa"]),
@@ -147,6 +149,8 @@ export default function Index() {
   const PontoEquilibrio =
     (DespesasFixasTotal + SalDiretos) / 1 -
     DespesasVariavelTotal / totalRec._sum.valor;
+
+  console.log(DespesasFixasTotal + SalDiretos);
 
   const PontoEquilibrioQtd = PontoEquilibrio / Mensalidade6;
   const capitalize = (str: string) => {
@@ -359,8 +363,8 @@ export default function Index() {
               <div className="overflow-y-auto  max-h-40 relative">
                 <table className="text-sm w-full  text-left text-slate-500 ">
                   <tbody>
-                    {totTipoDespesa?.map((desp: tipoDesp) => (
-                      <tr key={desp.id} className="bg-white border-b ">
+                    {totTipoDespesa?.map((desp: tipoDesp, index) => (
+                      <tr key={index} className="bg-white border-b ">
                         <th className="py-2 px-1 w-40  font-medium text-slate-900 whitespace-nowrap ">
                           {desp.conta}
                         </th>

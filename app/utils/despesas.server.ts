@@ -10,6 +10,17 @@ export const getDespesas = async () => {
     },
   });
 };
+export const despesasPorData = async () => {
+  return prisma.despesas.groupBy({
+    by: ["data"],
+    _sum: {
+      valor: true,
+    },
+    orderBy: {
+      data: "desc",
+    },
+  });
+};
 
 export const getDespesa = async (despesaId: string) => {
   return prisma.despesas.findUnique({
@@ -74,6 +85,34 @@ export const totTipoDespesas = async (ref: string) => {
       referencia: {
         equals: ref,
       },
+    },
+  });
+  return despesasTipo;
+};
+export const totTipoDespesasFixa = async (ref: string) => {
+  const despesasTipo = await prisma.despesas.groupBy({
+    by: ["conta"],
+    _sum: {
+      valor: true,
+    },
+    orderBy: {
+      _sum: {
+        valor: "desc",
+      },
+    },
+    where: {
+      AND: [
+        {
+          referencia: {
+            equals: ref,
+          },
+        },
+        {
+          tipo: {
+            equals: "fixa",
+          },
+        },
+      ],
     },
   });
   return despesasTipo;

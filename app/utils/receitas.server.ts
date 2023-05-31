@@ -5,9 +5,10 @@ import { pt } from "date-fns/locale";
 
 export const getReceitas = async () => {
   return prisma.receitas.findMany({
-    // orderBy: {
-    //   data: "desc",
-    // },
+    orderBy: {
+      valor: "asc",
+    },
+    // take: 2,
   });
 };
 
@@ -49,6 +50,18 @@ export const groupReceitasAgrupadas = async (ref: string) => {
       ref = "12/2023";
       break;
   }
+  return prisma.receitas.aggregate({
+    _sum: {
+      valor: true,
+    },
+    where: {
+      data: {
+        contains: ref,
+      },
+    },
+  });
+};
+export const groupReceitasMes = async (ref: string) => {
   return prisma.receitas.aggregate({
     _sum: {
       valor: true,
@@ -110,7 +123,35 @@ export const receitasPorCentroData = async (ref: string) => {
     },
   });
 };
+export const receitasPorCentroMes = async (ref: string) => {
+  return prisma.receitas.groupBy({
+    by: ["centro"],
 
+    where: {
+      data: {
+        contains: ref,
+      },
+    },
+
+    _sum: {
+      valor: true,
+    },
+    orderBy: {
+      _sum: {
+        valor: "desc",
+      },
+    },
+  });
+};
+
+export const receitasPorData = async () => {
+  return prisma.receitas.groupBy({
+    by: ["data"],
+    _sum: {
+      valor: true,
+    },
+  });
+};
 export const receitasPorCentro = async () => {
   return prisma.receitas.groupBy({
     by: ["centro", "data"],
@@ -164,32 +205,45 @@ export const getReceita = async (receitaId: string) => {
 };
 
 export const createReceita = async (receita: ReceitaForm) => {
-  const dt = new Date(receita.data);
-  const dataAtual = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
-  const referencia = format(dataAtual, "MMM-yyyy", { locale: pt });
   const newReceita = await prisma.receitas.create({
     data: {
-      referencia: referencia,
+      forma: receita.forma,
       centro: receita.centro,
-      data: dataAtual,
+      data: receita.data,
       valor: parseFloat(receita.valor.replace(".", "").replace(",", ".")),
     },
   });
   return { newReceita };
 };
+// export const createReceita = async (receita: ReceitaForm) => {
+//   const dt = new Date(receita.data);
+//   const dataAtual = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
+//   const referencia = format(dataAtual, "MMM-yyyy", { locale: pt });
+//   const newReceita = await prisma.receitas.create({
+//     data: {
+//       referencia: referencia,
+//       centro: receita.centro,
+//       data: dataAtual,
+//       valor: parseFloat(receita.valor.replace(".", "").replace(",", ".")),
+//     },
+//   });
+//   return { newReceita };
+// };
 export const updateReceita = async (receita: ReceitaForm) => {
-  const dt = new Date(receita.data);
-  const dataAtual = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
-  const referencia = format(dataAtual, "MMM-yyyy", { locale: pt });
+  // const dt = new Date(receita.data);
+  // const dataAtual = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
+  // const referencia = format(dataAtual, "MMM-yyyy", { locale: pt });
+  console.log(receita.id);
   const newReceita = await prisma.receitas.update({
     where: {
       id: receita.id,
     },
     data: {
       centro: receita.centro,
-      data: dataAtual,
-      referencia: referencia,
+      data: receita.data,
+      // referencia: referencia,
       valor: parseFloat(receita.valor.replace(".", "").replace(",", ".")),
+      status: receita.status,
     },
   });
   return { newReceita };
@@ -199,6 +253,18 @@ export const deleteReceita = async (receita: ReceitaForm) => {
   await prisma.receitas.delete({
     where: {
       id: receita.id,
+    },
+  });
+};
+
+export const baixarReceita = async (id: any) => {
+  console.log(id);
+  return prisma.receitas.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: "Recebida",
     },
   });
 };

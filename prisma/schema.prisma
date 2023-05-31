@@ -41,7 +41,11 @@ model receitas {
   data       String
   valor      Float
   referencia String?
+  forma  String?
+  lancamento  String?
+  status String?
 }
+
 
 
 type FolhaSalarios {

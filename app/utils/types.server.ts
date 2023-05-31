@@ -18,7 +18,8 @@ export type tipoDesp = {
 
 export type ReceitaForm = {
   centro: string;
-  data: Date;
+  forma: string;
+  data: string;
   valor: string;
   id?: string;
   referencia: string;
@@ -28,9 +29,11 @@ export type tipoRec = {
   _sum: any;
   id: string;
   centro: string;
-  data: Date;
+  data: string;
   valor: number;
   referencia: string;
+  forma: string;
+  status: string;
 };
 
 export type tipoFunc = {

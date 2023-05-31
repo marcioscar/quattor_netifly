@@ -64,6 +64,16 @@ export default function Receita() {
             defaultValue={receita?.centro}
             className="w-full p-2 rounded-xl my-2"
           />
+          <label htmlFor="conta" className="text-blue-600 font-semibold">
+            Forma de Pagamento
+          </label>
+          <input
+            type="text"
+            id="forma"
+            name="forma"
+            defaultValue={receita?.forma}
+            className="w-full p-2 rounded-xl my-2"
+          />
           <label htmlFor="valor" className="text-blue-600 font-semibold">
             Valor
           </label>
@@ -78,13 +88,21 @@ export default function Receita() {
             Data
           </label>
           <input
-            type="date"
+            type="texxt"
             id="data"
             name="data"
             className="w-full p-2 rounded-xl my-2"
-            defaultValue={new Date(receita?.data)
-              .toISOString()
-              .substring(0, 10)}
+            defaultValue={receita?.data}
+          />
+          <label htmlFor="password" className="text-blue-600 font-semibold">
+            Status
+          </label>
+          <input
+            type="texxt"
+            id="status"
+            name="status"
+            className="w-full p-2 rounded-xl my-2"
+            defaultValue={receita?.status}
           />
 
           <div className="w-full text-center space-x-5">
@@ -92,8 +110,7 @@ export default function Receita() {
               type="submit"
               className="rounded-xl mt-2 bg-blue-500 text-white px-3 py-2 font-semibold transition duration-300 ease-in-out hover:bg-blue-700 hover:-translate-y-1"
               name="_action"
-              value="save"
-            >
+              value="save">
               {transition.state === "submitting"
                 ? "Cadastrando..."
                 : "Cadastrar"}
@@ -102,8 +119,7 @@ export default function Receita() {
               type="submit"
               className="rounded-xl mt-2 bg-red-500 text-white px-3 py-2 font-semibold transition duration-300 ease-in-out hover:bg-red-700 hover:-translate-y-1"
               name="_action"
-              value="delete"
-            >
+              value="delete">
               {transition.state === "submitting" ? "Apagando..." : "Apagar"}
             </button>
           </div>

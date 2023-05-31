@@ -39,6 +39,15 @@ export default function New() {
             name="centro"
             className="w-full p-2 rounded-xl my-2"
           />
+          <label htmlFor="conta" className="text-blue-600 font-semibold">
+            Forma
+          </label>
+          <input
+            type="text"
+            id="forma"
+            name="forma"
+            className="w-full p-2 rounded-xl my-2"
+          />
           <label htmlFor="valor" className="text-blue-600 font-semibold">
             Valor
           </label>
@@ -53,19 +62,18 @@ export default function New() {
             Data
           </label>
           <input
-            type="date"
+            type="text"
             id="data"
             name="data"
             className="w-full p-2 rounded-xl my-2"
-            defaultValue={new Date().toISOString().substring(0, 10)}
+            // defaultValue={new Date().toISOString().substring(0, 10)}
           />
 
           <div className="w-full space-x-4 text-center">
             <button
               type="submit"
               className="rounded-xl mt-2 bg-blue-500 text-white px-3 py-2 font-semibold transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
-              value="Cadastrar"
-            >
+              value="Cadastrar">
               {transition.state === "submitting"
                 ? "Cadastrando..."
                 : "Cadastrar"}

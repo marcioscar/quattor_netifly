@@ -17,33 +17,36 @@ export function Navbar() {
             to="/"
             className={({ isActive }) =>
               isActive ? activeClassName : undefined
-            }
-          >
+            }>
             HOME
           </NavLink>
           <NavLink
             to="/despesas"
             className={({ isActive }) =>
               isActive ? activeClassName : undefined
-            }
-          >
+            }>
             DESPESAS
           </NavLink>
           <NavLink
             to="/receitas"
             className={({ isActive }) =>
               isActive ? activeClassName : undefined
-            }
-          >
+            }>
             RECEITAS
           </NavLink>
           <NavLink
             to="/folha"
             className={({ isActive }) =>
               isActive ? activeClassName : undefined
-            }
-          >
+            }>
             FOLHA
+          </NavLink>
+          <NavLink
+            to="/fluxo"
+            className={({ isActive }) =>
+              isActive ? activeClassName : undefined
+            }>
+            FLUXO
           </NavLink>
         </div>
         <div className="flex space-x-4 ">
@@ -52,8 +55,7 @@ export function Navbar() {
               to="/novo"
               className={({ isActive }) =>
                 isActive ? activeClassName : undefined
-              }
-            >
+              }>
               NOVO USUÁRIO
             </NavLink>
           </div>
