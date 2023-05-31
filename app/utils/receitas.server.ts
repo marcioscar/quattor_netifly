@@ -233,7 +233,7 @@ export const updateReceita = async (receita: ReceitaForm) => {
   // const dt = new Date(receita.data);
   // const dataAtual = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
   // const referencia = format(dataAtual, "MMM-yyyy", { locale: pt });
-  console.log(receita.id);
+
   const newReceita = await prisma.receitas.update({
     where: {
       id: receita.id,

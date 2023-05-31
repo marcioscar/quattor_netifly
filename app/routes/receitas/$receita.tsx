@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
-import { Navbar } from "~/components/Navbar";
+
 import { getReceita, updateReceita } from "~/utils/receitas.server";
 import { Form, useTransition } from "@remix-run/react";
 import type { ActionFunction } from "@remix-run/node";

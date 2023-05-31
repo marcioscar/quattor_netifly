@@ -18,7 +18,7 @@ import type { ActionArgs } from "@remix-run/node";
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   await baixarReceita(formData.get("_id"));
-  return redirect(``);
+  // return redirect(``);
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
